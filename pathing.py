@@ -28,7 +28,7 @@ def get_random_path():
     assert global_game_data.current_player_index < len(graph), "Player start node is not in the graph!"
 
     while (not(target_hit and path[-1] == len(graph) - 1)):
-        if (len(path) < len(graph)):
+        if (len(path) < len(graph) * 2):
             if (len(path) > 1 and len(graph[path[-1]][1]) > 1):
                 next_idx = path[-2]
                 while (next_idx == path[-2]):

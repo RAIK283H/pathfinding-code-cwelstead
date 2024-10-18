@@ -53,11 +53,130 @@ def get_random_path():
 
 
 def get_dfs_path():
-    return [1,2]
+    target_node = global_game_data.target_node[global_game_data.current_graph_index]
 
+    graph = graph_data.graph_data[global_game_data.current_graph_index]
+    stack = [global_game_data.current_player_index]
+    path = []
+
+    visited = set()
+    visited.add(global_game_data.current_player_index)
+    parents = {}
+    parents[global_game_data.current_player_index] = False
+
+    #DFS for the target node first
+    while stack:
+        current = stack.pop()
+        if (current == target_node):
+            break
+        
+        neighbors = graph[current][1]
+        for neighbor in neighbors:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                parents[neighbor] = current
+                stack.append(neighbor)
+
+    while (type(current) == int):
+        path.insert(0, current)
+        current = parents[current]
+    
+    # DFS for the end node from the target node
+    stack = [target_node]
+    visited = set()
+    visited.add(target_node)
+    parents = {}
+    parents[target_node] = False
+    while stack:
+        current = stack.pop()
+        if (current == len(graph) - 1):
+            break
+        
+        neighbors = graph[current][1]
+        for neighbor in neighbors:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                parents[neighbor] = current
+                stack.append(neighbor)
+    
+    insert_idx = len(path)
+    while (type(current) == int):
+        path.insert(insert_idx, current)
+        current = parents[current]
+    
+    #target idx appears twice, remove one instance and start node
+    path.pop(insert_idx)
+    path.pop(0)
+
+    assert target_node in path, "Target node is not in the path!"
+    assert len(graph) - 1 == path[-1], "Path does not end at the exit node!"
+    for i in range(len(path) - 2):
+        assert path[i + 1] in graph[path[i]][1], "One or more connected nodes don't have an edge!"
+
+    return path
 
 def get_bfs_path():
-    return [1,2]
+    target_node = global_game_data.target_node[global_game_data.current_graph_index]
+
+    graph = graph_data.graph_data[global_game_data.current_graph_index]
+    queue = [global_game_data.current_player_index]
+    path = []
+
+    visited = set()
+    visited.add(global_game_data.current_player_index)
+    parents = {}
+    parents[global_game_data.current_player_index] = False
+
+    #BFS for the target node first
+    while queue:
+        current = queue.pop(0)
+        if (current == target_node):
+            break
+        
+        neighbors = graph[current][1]
+        for neighbor in neighbors:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                parents[neighbor] = current
+                queue.append(neighbor)
+
+    while (type(current) == int):
+        path.insert(0, current)
+        current = parents[current]
+    
+    # BFS for the end node from the target node
+    queue = [target_node]
+    visited = set()
+    visited.add(target_node)
+    parents = {}
+    parents[target_node] = False
+    while queue:
+        current = queue.pop(0)
+        if (current == len(graph) - 1):
+            break
+        
+        neighbors = graph[current][1]
+        for neighbor in neighbors:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                parents[neighbor] = current
+                queue.append(neighbor)
+    
+    insert_idx = len(path)
+    while (type(current) == int):
+        path.insert(insert_idx, current)
+        current = parents[current]
+    
+    #target idx appears twice, remove one instance and start node
+    path.pop(insert_idx)
+    path.pop(0)
+
+    assert target_node in path, "Target node is not in the path!"
+    assert len(graph) - 1 == path[-1], "Path does not end at the exit node!"
+    for i in range(len(path) - 2):
+        assert path[i + 1] in graph[path[i]][1], "One or more connected nodes don't have an edge!"
+
+    return path
 
 
 def get_dijkstra_path():

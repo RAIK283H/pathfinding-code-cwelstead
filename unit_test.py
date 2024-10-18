@@ -1,5 +1,7 @@
 import math
 import unittest
+import global_game_data
+import pathing
 
 
 class TestPathFinding(unittest.TestCase):
@@ -23,6 +25,32 @@ class TestPathFinding(unittest.TestCase):
         self.assertNotEqual(almost_pi, pi)
         self.assertAlmostEqual(first=almost_pi, second=pi, delta=1e-1)
 
+    def test_dfs_1(self):
+        global_game_data.current_graph_index = 2
+        global_game_data.target_node = [0, 0, 1]
+        expected = [22, 20, 1, 20, 22, 3, 11, 17, 18, 23]
+        result = pathing.get_dfs_path()
+        self.assertEqual(expected, result)
+    def test_bfs_1(self):
+        global_game_data.current_graph_index = 2
+        global_game_data.target_node = [0, 0, 1]
+        expected = [21, 19, 1, 19, 21, 23]
+        result = pathing.get_bfs_path()
+        self.assertEqual(expected, result)
+
+    def test_dfs_2(self):
+        global_game_data.current_graph_index = 3
+        global_game_data.target_node = [0, 0, 0, 11]
+        expected = [4, 8, 12, 13, 14, 10, 11, 15]
+        result = pathing.get_dfs_path()
+        self.assertEqual(expected, result)
+    def test_bfs_2(self):
+        global_game_data.current_graph_index = 3
+        global_game_data.target_node = [0, 0, 0, 11]
+        expected = [1, 2, 3, 7, 11, 15]
+        result = pathing.get_bfs_path()
+        self.assertEqual(expected, result)
+    
 
 if __name__ == '__main__':
     unittest.main()

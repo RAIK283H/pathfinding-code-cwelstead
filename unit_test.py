@@ -28,7 +28,7 @@ class TestPathFinding(unittest.TestCase):
     def test_dfs_1(self):
         global_game_data.current_graph_index = 2
         global_game_data.target_node = [0, 0, 1]
-        expected = [22, 20, 1, 20, 22, 3, 11, 17, 18, 23]
+        expected = [17, 11, 4, 7, 1, 2, 5, 21, 23]
         result = pathing.get_dfs_path()
         self.assertEqual(expected, result)
     def test_bfs_1(self):
@@ -41,7 +41,7 @@ class TestPathFinding(unittest.TestCase):
     def test_dfs_2(self):
         global_game_data.current_graph_index = 3
         global_game_data.target_node = [0, 0, 0, 11]
-        expected = [4, 8, 12, 13, 14, 10, 11, 15]
+        expected = [1, 2, 3, 7, 11, 15]
         result = pathing.get_dfs_path()
         self.assertEqual(expected, result)
     def test_bfs_2(self):

@@ -71,11 +71,12 @@ def get_dfs_path():
             break
         
         neighbors = graph[current][1]
+        insert_idx = len(stack)
         for neighbor in neighbors:
             if neighbor not in visited:
                 visited.add(neighbor)
                 parents[neighbor] = current
-                stack.append(neighbor)
+                stack.insert(insert_idx, neighbor)
 
     while (type(current) == int):
         path.insert(0, current)
@@ -93,20 +94,22 @@ def get_dfs_path():
             break
         
         neighbors = graph[current][1]
+        insert_idx = len(stack)
         for neighbor in neighbors:
             if neighbor not in visited:
                 visited.add(neighbor)
                 parents[neighbor] = current
-                stack.append(neighbor)
+                stack.insert(insert_idx, neighbor)
     
-    insert_idx = len(path)
+    target_path = []
     while (type(current) == int):
-        path.insert(insert_idx, current)
+        target_path.insert(0, current)
         current = parents[current]
     
     #target idx appears twice, remove one instance and start node
-    path.pop(insert_idx)
+    target_path.pop(0)
     path.pop(0)
+    path = path + target_path
 
     assert target_node in path, "Target node is not in the path!"
     assert len(graph) - 1 == path[-1], "Path does not end at the exit node!"

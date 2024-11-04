@@ -2,7 +2,7 @@ import math
 import unittest
 import global_game_data
 import pathing
-
+import permutation
 
 class TestPathFinding(unittest.TestCase):
 
@@ -50,6 +50,43 @@ class TestPathFinding(unittest.TestCase):
         expected = [1, 2, 3, 7, 11, 15]
         result = pathing.get_bfs_path()
         self.assertEqual(expected, result)
+
+    def test_permutation(self):
+        expected = [[1, 2, 3, 4],
+                    [1, 2, 4, 3],
+                    [1, 4, 2, 3],
+                    [4, 1, 2, 3],
+                    [4, 1, 3, 2],
+                    [1, 4, 3, 2],
+                    [1, 3, 4, 2],
+                    [1, 3, 2, 4],
+                    [3, 1, 2, 4],
+                    [3, 1, 4, 2],
+                    [3, 4, 1, 2],
+                    [4, 3, 1, 2],
+                    [4, 3, 2, 1],
+                    [3, 4, 2, 1],
+                    [3, 2, 4, 1],
+                    [3, 2, 1, 4],
+                    [2, 3, 1, 4],
+                    [2, 3, 4, 1],
+                    [2, 4, 3, 1],
+                    [4, 2, 3, 1],
+                    [4, 2, 1, 3],
+                    [2, 4, 1, 3],
+                    [2, 1, 4, 3],
+                    [2, 1, 3, 4],]
+        result = permutation.graph_permutations(0, 4, check_cyles=False, return_permutations=True)
+        self.assertEqual(expected, result)
+    def test_circuit_1(self):
+        circuit = [1,14,7,8,9,4,13,12,11,10,3,6,5,2]
+        self.assertTrue(permutation.check_cycle(5, circuit))
+    def test_circuit_2(self):
+        circuit = [1,2,5,6,3,10,11,12,13,4,9,8,7,14]
+        self.assertTrue(permutation.check_cycle(5, circuit))
+    def test_circuit_false(self):
+        circuit = [1,2,3,10,11,12,13,4,6,5,14,7,8,9]
+        self.assertFalse(permutation.check_cycle(5, circuit))
     
 
 if __name__ == '__main__':

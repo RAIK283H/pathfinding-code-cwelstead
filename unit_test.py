@@ -80,13 +80,13 @@ class TestPathFinding(unittest.TestCase):
         self.assertEqual(expected, result)
     def test_circuit_1(self):
         circuit = [1,14,7,8,9,4,13,12,11,10,3,6,5,2]
-        self.assertTrue(permutation.check_cycle(5, circuit))
+        self.assertTrue(permutation.check_cycle(5, circuit, print_if_found=False))
     def test_circuit_2(self):
         circuit = [1,2,5,6,3,10,11,12,13,4,9,8,7,14]
-        self.assertTrue(permutation.check_cycle(5, circuit))
+        self.assertTrue(permutation.check_cycle(5, circuit, print_if_found=False))
     def test_circuit_false(self):
         circuit = [1,2,3,10,11,12,13,4,6,5,14,7,8,9]
-        self.assertFalse(permutation.check_cycle(5, circuit))
+        self.assertFalse(permutation.check_cycle(5, circuit, print_if_found=False))
     
 
 if __name__ == '__main__':

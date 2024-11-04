@@ -1,6 +1,6 @@
 import graph_data
 
-def check_cycle(graph_idx, permutation):
+def check_cycle(graph_idx, permutation, print_if_found=True):
     graph = graph_data.graph_data[graph_idx]
 
     for i in range(len(permutation) - 1):
@@ -9,7 +9,8 @@ def check_cycle(graph_idx, permutation):
     if (not permutation[0] in graph[permutation[-1]][1]):
         return False
     
-    print("Valid Hamiltonian cycle found in graph " + str(graph_idx) + ": " + str(permutation))
+    if (print_if_found):
+        print("Valid Hamiltonian cycle found in graph " + str(graph_idx) + ": " + str(permutation))
     return True
 
 def graph_permutations(graph_idx, n, check_cyles=True, return_permutations=False):
@@ -28,7 +29,7 @@ def graph_permutations(graph_idx, n, check_cyles=True, return_permutations=False
         elif (return_permutations):
             all_permutations.append(current_permutation.copy())
         else:
-            print("current_permutation")
+            print(current_permutation)
 
         largest_mobile_idx = -1
         for idx, num in enumerate(current_permutation):

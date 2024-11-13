@@ -2,10 +2,12 @@ import graph_data
 import global_game_data
 from numpy import random
 import random
+import heapq as heap
+import math
 
 def set_current_graph_paths():
     global_game_data.graph_paths.clear()
-    global_game_data.graph_paths.append(get_test_path())
+#    global_game_data.graph_paths.append(get_test_path())
     global_game_data.graph_paths.append(get_random_path())
     global_game_data.graph_paths.append(get_dfs_path())
     global_game_data.graph_paths.append(get_bfs_path())
@@ -181,6 +183,65 @@ def get_bfs_path():
 
     return path
 
+# u and v are both indices that refer to nodes in graph
+def dist_between(graph, u, v):
+    return math.sqrt((graph[u][0][0] - graph[v][0][0]) ** 2 + (graph[u][0][1] - graph[v][0][1]) ** 2)
 
 def get_dijkstra_path():
-    return [1,2]
+    target_node = global_game_data.target_node[global_game_data.current_graph_index]
+    path = []
+
+    graph = graph_data.graph_data[global_game_data.current_graph_index]
+    distances = {node:float('inf') for node in  range(len(graph))}
+    parents = {node:None for node in range(len(graph))}
+    solved = {node:False for node in range(len(graph))}
+    distances[0] = 0
+
+    queue = []
+    heap.heappush(queue, (distances[0], 0))
+
+    while queue:
+        current_dist, current_node = heap.heappop(queue)
+        solved[current_node] = True
+
+        for neighbor in graph[current_node][1]:
+            neighbor_dist = current_dist + dist_between(graph, current_node, neighbor)
+            if (not solved[neighbor]) and neighbor_dist < distances[neighbor]:
+                distances[neighbor] = neighbor_dist
+                parents[neighbor] = current_node
+                if neighbor not in queue:
+                    heap.heappush(queue, (distances[neighbor], neighbor))
+    
+    traced_node = target_node
+    while (parents[traced_node] != None):
+        path.insert(0, traced_node)
+        traced_node = parents[traced_node]
+    
+    end_path = []
+    distances = {node:float('inf') for node in  range(len(graph))}
+    parents = {node:None for node in range(len(graph))}
+    solved = {node:False for node in range(len(graph))}
+    distances[target_node] = 0
+
+    queue = []
+    heap.heappush(queue, (distances[target_node], target_node))
+
+    while queue:
+        current_dist, current_node = heap.heappop(queue)
+        solved[current_node] = True
+
+        for neighbor in graph[current_node][1]:
+            neighbor_dist = current_dist + dist_between(graph, current_node, neighbor)
+            if (not solved[neighbor]) and neighbor_dist < distances[neighbor]:
+                distances[neighbor] = neighbor_dist
+                parents[neighbor] = current_node
+                if neighbor not in queue:
+                    heap.heappush(queue, (distances[neighbor], neighbor))
+    
+    traced_node = len(graph) - 1
+    while (parents[traced_node] != None):
+        end_path.insert(0, traced_node)
+        traced_node = parents[traced_node]
+    
+    path.extend(end_path)
+    return path

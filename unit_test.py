@@ -88,6 +88,25 @@ class TestPathFinding(unittest.TestCase):
         circuit = [1,2,3,10,11,12,13,4,6,5,14,7,8,9]
         self.assertFalse(permutation.check_cycle(5, circuit, print_if_found=False))
     
+    def test_dijkstra_1(self):
+        global_game_data.current_graph_index = 2
+        global_game_data.target_node = [0, 0, 1]
+        expected = [17, 12, 7, 1, 2, 10, 14, 18, 23]
+        result = pathing.get_dijkstra_path()
+        self.assertEqual(expected, result) 
+    def test_dijkstra_2(self):
+        global_game_data.current_graph_index = 2
+        global_game_data.target_node = [0, 0, 3]
+        expected = [17, 11, 3, 11, 17, 18, 23]
+        result = pathing.get_dijkstra_path()
+        self.assertEqual(expected, result) 
+    def test_dijkstra_3(self):
+        global_game_data.current_graph_index = 2
+        global_game_data.target_node = [0, 0, 14]
+        expected = [17, 15, 14, 18, 23]
+        result = pathing.get_dijkstra_path()
+        self.assertEqual(expected, result) 
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -244,4 +244,11 @@ def get_dijkstra_path():
         traced_node = parents[traced_node]
     
     path.extend(end_path)
+
+    assert 0 in graph[path[0]][1], "Path does not start at the first node!"
+    assert target_node in path, "Target node is not in the path!"
+    assert len(graph) - 1 == path[-1], "Path does not end at the exit node!"
+    for i in range(len(path) - 2):
+        assert path[i + 1] in graph[path[i]][1], "One or more connected nodes don't have an edge!"
+
     return path

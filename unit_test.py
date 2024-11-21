@@ -25,29 +25,65 @@ class TestPathFinding(unittest.TestCase):
         self.assertNotEqual(almost_pi, pi)
         self.assertAlmostEqual(first=almost_pi, second=pi, delta=1e-1)
 
-    def test_dfs_1(self):
+    def test_dfs_happy_path_1(self):
         global_game_data.current_graph_index = 2
         global_game_data.target_node = [0, 0, 1]
         expected = [17, 11, 4, 7, 1, 2, 5, 21, 23]
         result = pathing.get_dfs_path()
         self.assertEqual(expected, result)
-    def test_bfs_1(self):
-        global_game_data.current_graph_index = 2
-        global_game_data.target_node = [0, 0, 1]
-        expected = [21, 19, 1, 19, 21, 23]
-        result = pathing.get_bfs_path()
-        self.assertEqual(expected, result)
-
-    def test_dfs_2(self):
+    def test_dfs_happy_path_2(self):
         global_game_data.current_graph_index = 3
         global_game_data.target_node = [0, 0, 0, 11]
         expected = [1, 2, 3, 7, 11, 15]
         result = pathing.get_dfs_path()
         self.assertEqual(expected, result)
-    def test_bfs_2(self):
+    def test_dfs_optimal_path_backtracks(self):
+        global_game_data.current_graph_index = 7
+        global_game_data.target_node = [0, 0, 0, 0, 0, 0, 0, 3]
+        expected = [3, 0, 9]
+        result = pathing.get_dfs_path()
+        self.assertEqual(expected, result)
+    def test_dfs_target_is_start(self):
+        global_game_data.current_graph_index = 2
+        global_game_data.target_node = [0, 0, 0]
+        expected = [17, 18, 23]
+        result = pathing.get_dfs_path()
+        self.assertEqual(expected, result)
+    def test_dfs_target_is_end(self):
+        global_game_data.current_graph_index = 2
+        global_game_data.target_node = [0, 0, 23]
+        expected = [17, 18, 23]
+        result = pathing.get_dfs_path()
+        self.assertEqual(expected, result)
+
+    def test_bfs_happy_path_1(self):
+        global_game_data.current_graph_index = 2
+        global_game_data.target_node = [0, 0, 1]
+        expected = [21, 19, 1, 19, 21, 23]
+        result = pathing.get_bfs_path()
+        self.assertEqual(expected, result)
+    def test_bfs_happy_path_2(self):
         global_game_data.current_graph_index = 3
         global_game_data.target_node = [0, 0, 0, 11]
         expected = [1, 2, 3, 7, 11, 15]
+        result = pathing.get_bfs_path()
+        self.assertEqual(expected, result)
+    def test_bfs_optimal_path_backtracks(self):
+        global_game_data.current_graph_index = 2
+        global_game_data.target_node = [0, 0, 22]
+        expected = [22, 0, 21, 23]
+        result = pathing.get_bfs_path()
+        self.assertEqual(expected, result)
+    def test_bfs_target_is_start(self):
+        global_game_data.current_graph_index = 2
+        global_game_data.target_node = [0, 0, 0]
+        expected = [21, 23]
+        result = pathing.get_bfs_path()
+        self.assertEqual(expected, result)
+    def test_bfs_target_is_end(self):
+        global_game_data.current_graph_index = 2
+        global_game_data.target_node = [0, 0, 23]
+        expected = [21, 23]
         result = pathing.get_bfs_path()
         self.assertEqual(expected, result)
     

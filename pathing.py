@@ -113,7 +113,8 @@ def get_dfs_path():
     path.pop(0)
     path = path + target_path
 
-    assert target_node in path, "Target node is not in the path!"
+    #if the target node is the start, it will be considered already hit
+    assert target_node in path or target_node == 0, "Target node is not in the path!"
     assert len(graph) - 1 == path[-1], "Path does not end at the exit node!"
     for i in range(len(path) - 2):
         assert path[i + 1] in graph[path[i]][1], "One or more connected nodes don't have an edge!"
@@ -176,7 +177,8 @@ def get_bfs_path():
     path.pop(insert_idx)
     path.pop(0)
 
-    assert target_node in path, "Target node is not in the path!"
+    #if the target node is the start, it will be considered already hit
+    assert target_node in path or target_node == 0, "Target node is not in the path!"
     assert len(graph) - 1 == path[-1], "Path does not end at the exit node!"
     for i in range(len(path) - 2):
         assert path[i + 1] in graph[path[i]][1], "One or more connected nodes don't have an edge!"

@@ -35,3 +35,6 @@ def floyd_warshall(graph, start, end):
     
     path.append(j)
     return path
+
+def floyd_warshall_path(graph, target):
+    return floyd_warshall(graph, 0, target) + floyd_warshall(graph, target, len(graph) - 1)

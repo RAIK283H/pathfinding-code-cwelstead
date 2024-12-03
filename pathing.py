@@ -4,6 +4,7 @@ from numpy import random
 import random
 import heapq as heap
 import math
+import f_w as fw
 
 def set_current_graph_paths():
     global_game_data.graph_paths.clear()
@@ -11,7 +12,8 @@ def set_current_graph_paths():
     global_game_data.graph_paths.append(get_random_path())
     global_game_data.graph_paths.append(get_dfs_path())
     global_game_data.graph_paths.append(get_bfs_path())
-    global_game_data.graph_paths.append(get_dijkstra_path())
+#    global_game_data.graph_paths.append(get_dijkstra_path())
+    global_game_data.graph_paths.append(get_fw_path())
 
 
 def get_test_path():
@@ -252,5 +254,21 @@ def get_dijkstra_path():
     assert len(graph) - 1 == path[-1], "Path does not end at the exit node!"
     for i in range(len(path) - 2):
         assert path[i + 1] in graph[path[i]][1], "One or more connected nodes don't have an edge!"
+
+    return path
+
+def get_fw_path():
+    target_node = global_game_data.target_node[global_game_data.current_graph_index]
+    graph = graph_data.graph_data[global_game_data.current_graph_index]
+
+    path = fw.floyd_warshall_path(graph, target_node)
+
+    """
+    assert 0 in graph[path[0]][1], "Path does not start at the first node!"
+    assert target_node in path, "Target node is not in the path!"
+    assert len(graph) - 1 == path[-1], "Path does not end at the exit node!"
+    for i in range(len(path) - 2):
+        assert path[i + 1] in graph[path[i]][1], "One or more connected nodes don't have an edge!"
+    """
 
     return path

@@ -80,6 +80,12 @@ class TestPathFinding(unittest.TestCase):
         expected = [21, 23]
         result = pathing.get_bfs_path()
         self.assertEqual(expected, result)
+    def test_bfs_optimal_path_backtracks(self):
+        global_game_data.current_graph_index = 2
+        global_game_data.target_node = [0, 0, 22]
+        expected = [22, 0, 21, 23]
+        result = pathing.get_bfs_path()
+        self.assertEqual(expected, result)
 
     def test_permutation(self):
         expected = [[1, 2, 3, 4],
@@ -136,11 +142,42 @@ class TestPathFinding(unittest.TestCase):
         expected = [17, 15, 14, 18, 23]
         result = pathing.get_dijkstra_path()
         self.assertEqual(expected, result) 
-    def test_bfs_optimal_path_backtracks(self):
+
+    def test_fw_happy_path_1(self):
+        global_game_data.current_graph_index = 2
+        global_game_data.target_node = [0, 0, 1]
+        expected = [17, 12, 7, 1, 2, 10, 14, 18, 23]
+        result = pathing.get_fw_path()
+        self.assertEqual(expected, result) 
+    def test_fw_happy_path_2(self):
+        global_game_data.current_graph_index = 2
+        global_game_data.target_node = [0, 0, 3]
+        expected = [17, 11, 3, 11, 17, 18, 23]
+        result = pathing.get_fw_path()
+        self.assertEqual(expected, result) 
+    def test_fw_happy_path_3(self):
+        global_game_data.current_graph_index = 2
+        global_game_data.target_node = [0, 0, 14]
+        expected = [17, 15, 14, 18, 23]
+        result = pathing.get_fw_path()
+        self.assertEqual(expected, result) 
+    def test_fw_target_is_start(self):
+        global_game_data.current_graph_index = 2
+        global_game_data.target_node = [0, 0, 0]
+        expected = [21, 23]
+        result = pathing.get_fw_path()
+        self.assertEqual(expected, result)
+    def test_fw_target_is_end(self):
+        global_game_data.current_graph_index = 2
+        global_game_data.target_node = [0, 0, 23]
+        expected = [21, 23]
+        result = pathing.get_fw_path()
+        self.assertEqual(expected, result)
+    def test_fw_optimal_path_backtracks(self):
         global_game_data.current_graph_index = 2
         global_game_data.target_node = [0, 0, 22]
         expected = [22, 0, 21, 23]
-        result = pathing.get_bfs_path()
+        result = pathing.get_fw_path()
         self.assertEqual(expected, result)
 
 if __name__ == '__main__':

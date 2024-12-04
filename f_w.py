@@ -16,24 +16,28 @@ def graph_to_matrix(graph):
 
 def floyd_warshall(graph, start, end):
     size = len(graph)
-    W = graph_to_matrix(graph)
-    P = [[None] * size for _ in range(size)]
+    dist = graph_to_matrix(graph)
+    prev = [[math.inf] * size for _ in range(size)]
 
+    for idx, node in enumerate(graph):
+        dist[idx][idx] = 0
+        prev[idx][idx] = idx
+        for neighbor in node[1]:
+            prev[idx][neighbor] = idx
+    
     for k in range(size):
         for i in range(size):
             for j in range(size):
-                if W[i][k] + W[j][k] < W[i][j]:
-                    W[i][j] = W[i][k] + W[k][j]
-                    P[i][j] = k
-    i = start
-    j = end
-    path = []
-    z = P[i][j]
-    while z is not None:
-        path.insert(0, z)
-        z = P[i][z]
+                if dist[i][j] > dist[i][k] + dist[k][j]:
+                    dist[i][j] = dist[i][k] + dist[k][j]
+                    prev[i][j] = prev[k][j]
     
-    path.append(j)
+    u, v = start, end
+    path = []
+    while u != v:
+        path.insert(0, v)
+        v = prev[u][v]
+    
     return path
 
 def floyd_warshall_path(graph, target):

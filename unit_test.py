@@ -164,19 +164,19 @@ class TestPathFinding(unittest.TestCase):
     def test_fw_target_is_start(self):
         global_game_data.current_graph_index = 2
         global_game_data.target_node = [0, 0, 0]
-        expected = [21, 23]
+        expected = [17, 18, 23]
         result = pathing.get_fw_path()
         self.assertEqual(expected, result)
     def test_fw_target_is_end(self):
         global_game_data.current_graph_index = 2
         global_game_data.target_node = [0, 0, 23]
-        expected = [21, 23]
+        expected = [17, 18, 23]
         result = pathing.get_fw_path()
         self.assertEqual(expected, result)
     def test_fw_optimal_path_backtracks(self):
-        global_game_data.current_graph_index = 2
-        global_game_data.target_node = [0, 0, 22]
-        expected = [22, 0, 21, 23]
+        global_game_data.current_graph_index = 7
+        global_game_data.target_node = [0, 0, 0, 0, 0, 0, 0, 7]
+        expected = [7, 0, 9]
         result = pathing.get_fw_path()
         self.assertEqual(expected, result)
 
